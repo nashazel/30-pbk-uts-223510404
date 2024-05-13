@@ -1,7 +1,6 @@
 <template>
 	<div>
 	  <h1>Pilih Pengguna:</h1>
-	  <h2>test</h2>
 	  <select v-model="selectedUser">
 		<option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
 	  </select>
