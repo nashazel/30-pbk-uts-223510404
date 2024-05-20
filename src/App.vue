@@ -1,64 +1,60 @@
 <template>
-	<div>
-	  <h1>Pilih Pengguna:</h1>
-	  <select v-model="selectedUser">
-		<option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
-	  </select>
-  
-	  <h1>Daftar Postingan Pengguna:</h1>
-	  <ul v-if="selectedUser !== null">
-		<li v-for="post in userPosts" :key="post.id">
-		  <h3>{{ post.title }}</h3>
-		  <p>{{ post.body }}</p>
-		</li>
-	  </ul>
-	  <p v-else>Pilih pengguna untuk melihat postingannya.</p>
+	<div id="app">
+	  <Header @show-todos="showTodosComponent" @show-post="showPostComponent" />
+	  <Post v-if="showPost" @add-post="addPost" />
+	  <PostList v-if="showPostList" :posts="posts" />
+	  <TodoList v-if="showTodosAdvanced" />
 	</div>
   </template>
   
   <script>
+  import Header from './components/Header.vue';
+  import Post from './components/Post.vue';
+  import PostList from './components/PostList.vue';
+  import TodoList from './components/TodoList.vue'; // Komponen baru
+  
   export default {
-	data() {
-	  return {
-		users: [],
-		selectedUser: null,
-		userPosts: []
-	  };
-	},
-	created() {
-	  this.fetchUsers();
-	},
-	watch: {
-	  selectedUser: function(newValue) {
-		this.fetchUserPosts(newValue);
-	  }
-	},
-	methods: {
-	  fetchUsers() {
-		fetch('https://jsonplaceholder.typicode.com/users')
-		  .then(response => response.json())
-		  .then(data => {
-			this.users = data;
-		  })
-		  .catch(error => {
-			console.error('Error fetching users:', error);
-		  });
-	  },
-	  fetchUserPosts(userId) {
-		fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
-		  .then(response => response.json())
-		  .then(data => {
-			this.userPosts = data;
-		  })
-		  .catch(error => {
-			console.error('Error fetching user posts:', error);
-		  });
-	  }
-	}
+  components: {
+  Header,
+  Post,
+  PostList,
+  TodoList
+  },
+  data() {
+  return {
+  showPost: false,
+  showTodosAdvanced: false,
+  showPostList: false,
+  posts: [],
   };
+  },
+  methods: {
+  showPostComponent() {
+  this.showPost = true;
+  this.showTodosAdvanced = false;
+  this.showPostList = true;
+  },
+  showTodosComponent() {
+  this.showPost = false;
+  this.showTodosAdvanced = true;
+  this.showPostList = false;
+  },
+  addPost(post) {
+  this.posts.push(post);
+  this.showPost = false;
+  this.showPostList = true;
+  }
+  }
+  }
   </script>
   
-  <style scoped>
-  /* Styling can be added here */
+  <style>
+  #app {
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #2c3e50;
+	margin-top: 60px;
+  }
   </style>
-  
