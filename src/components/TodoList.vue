@@ -31,6 +31,9 @@ const addTodo = () => {
     editable: false,
     createdAt: new Date().getTime()
   });
+
+  input_content.value = '';
+  input_category.value = null;
 };
 
 const removeTodo = (todo) => {
@@ -95,7 +98,7 @@ onMounted(() => {
     <section class="todo-list">
       <h3>TODO LIST</h3>
       <div class="list" id="todo-list">
-        <div v-for="todo in todos_asc" :key="todo.createdAt" :class="`todo-item ${todo.done && 'done'}`">
+        <div v-for="todo in todos_asc" :key="todo.createdAt" :class="`todo-item ${todo.done ? 'done' : ''}`">
           <label>
             <input type="checkbox" v-model="todo.done" />
             <span :class="`bubble ${
@@ -119,51 +122,113 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #eef2f5;
+}
+
 .app {
-  padding: 1rem;
+  padding: 2rem;
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .greeting .title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .create-todo, .todo-list {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 2rem;
 }
 
 .create-todo h3, .todo-list h3 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: #007bff;
+}
+
+#create-todo-form h4 {
   margin-bottom: 1rem;
+  color: #333;
 }
 
-#new-todo-form h4 {
-  margin-bottom: 0.5rem;
-}
-
-#new-todo-form input[type="text"], 
-#new-todo-form input[type="submit"] {
+#create-todo-form input[type="text"], 
+#create-todo-form input[type="submit"] {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+#create-todo-form input[type="text"]:focus, 
+#create-todo-form input[type="submit"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+#create-todo-form input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#create-todo-form input[type="submit"]:hover {
+  background-color: #0056b3;
 }
 
 .options {
   display: flex;
   justify-content: space-around;
+  margin-bottom: 1rem;
 }
 
 .options label {
   cursor: pointer;
   display: flex;
   align-items: center;
+  flex-direction: column;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.options label:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .bubble {
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   border-radius: 50%;
-  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .business {
@@ -182,8 +247,15 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #ccc;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.todo-item:hover {
+  background-color: #f9f9f9;
 }
 
 .todo-item.done .todo-content {
@@ -191,11 +263,35 @@ onMounted(() => {
   color: #999;
 }
 
+.todo-content {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.todo-content input {
+  width: 100%;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.todo-content input:focus {
+  outline: none;
+}
+
 .actions .delete {
   background: #e74c3c;
   color: white;
   border: none;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.actions .delete:hover {
+  background: #c0392b;
 }
 </style>

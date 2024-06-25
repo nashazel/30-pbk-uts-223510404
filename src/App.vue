@@ -1,50 +1,28 @@
 <template>
 	<div id="app">
-	  <Header @show-todos="showTodosComponent" @show-post="showPostComponent" />
-	  <Post v-if="showPost" @add-post="addPost" />
-	  <PostList v-if="showPostList" :posts="posts" />
-	  <TodoList v-if="showTodosAdvanced" />
+	  <Header @show-todos="showTodosComponent" @show-post="showPostComponent" @show-albums="showAlbumsComponent" />
+	  <router-view />
 	</div>
   </template>
   
   <script>
   import Header from './components/Header.vue';
-  import Post from './components/Post.vue';
-  import PostList from './components/PostList.vue';
-  import TodoList from './components/TodoList.vue'; // Komponen baru
   
   export default {
-  components: {
-  Header,
-  Post,
-  PostList,
-  TodoList
-  },
-  data() {
-  return {
-  showPost: false,
-  showTodosAdvanced: false,
-  showPostList: false,
-  posts: [],
-  };
-  },
-  methods: {
-  showPostComponent() {
-  this.showPost = true;
-  this.showTodosAdvanced = false;
-  this.showPostList = true;
-  },
-  showTodosComponent() {
-  this.showPost = false;
-  this.showTodosAdvanced = true;
-  this.showPostList = false;
-  },
-  addPost(post) {
-  this.posts.push(post);
-  this.showPost = false;
-  this.showPostList = true;
-  }
-  }
+	components: {
+	  Header
+	},
+	methods: {
+	  showPostComponent() {
+		this.$router.push('/post');
+	  },
+	  showTodosComponent() {
+		this.$router.push('/todos');
+	  },
+	  showAlbumsComponent() {
+		this.$router.push('/albums');
+	  }
+	}
   }
   </script>
   
@@ -55,6 +33,8 @@
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
-	margin-top: 60px;
+	margin-top: 20px;
+	padding: 0 20px;
   }
   </style>
+  

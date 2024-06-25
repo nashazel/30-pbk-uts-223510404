@@ -44,8 +44,12 @@
 	padding: 1rem;
 	background: #f9f9f9;
 	border: 1px solid #ccc;
+	border-radius: 10px;
 	margin-top: 1rem;
 	text-align: left;
+	max-width: 600px;
+	margin: 1rem auto;
+	font-family: 'Poppins', sans-serif;
   }
   form div {
 	margin-bottom: 1rem;
@@ -58,13 +62,19 @@
 	width: 100%;
 	padding: 0.5rem;
 	border: 1px solid #ccc;
+	border-radius: 5px;
   }
   button {
 	padding: 0.5rem 1rem;
-	background: #333;
+	background: #007bff;
 	color: white;
 	border: none;
+	border-radius: 5px;
 	cursor: pointer;
+	transition: background 0.3s;
+  }
+  button:hover {
+	background: #0056b3;
   }
   </style>
   
